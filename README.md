@@ -1,4 +1,4 @@
-# Ng7App
+# Angular 7 app with best practice
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.9.
 
