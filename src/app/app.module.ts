@@ -5,10 +5,8 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {HttpJwtInterceptor} from './@core/interceptors/http-jwt.interceptor';
 import {HttpErrorInterceptor} from './@core/interceptors/http-error.interceptor';
 
-
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
-
 
 @NgModule({
     declarations: [
