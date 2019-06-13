@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {RouterModule, Routes} from '@angular/router';
 
-const routes: Routes = [];
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    [RouterModule.forRoot(routes)]
+    AppRoutingModule
   ]
 })
-export class LoginModule { }
+export class AppModule { }
