@@ -2,11 +2,12 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
+    "downlevelIteration": true,
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
 
-    "target": "es2018",
+    "target": "es2015",
     "module": "esnext",
     "jsx": "preserve",
 
