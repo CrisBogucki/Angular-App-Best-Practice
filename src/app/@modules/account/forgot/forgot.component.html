@@ -1,6 +1,6 @@
 <div class="main">
     <div class="columns">
-        <div class="background-column column is-hidden-mobile has-background-white-ter" style="background-image: url('https://wallpaperaccess.com/full/32822.jpg');">
+        <div class="background-column column is-hidden-mobile has-background-white-ter" style="background-image: url('https://images.fineartamerica.com/images/artworkimages/mediumlarge/1/rio-grande-sunset-tim-mccarthy.jpg');">
             <div class="container is-fluid has-text-right">
                 <h1 class="title is-1 has-text-white">Welcome to</h1>
                 <h2 class="subtitle is-2 has-text-white">{{ appConfig.appName }}</h2>
@@ -13,11 +13,25 @@
                     <div id="login-form">
                         <div class="has-text-centered">
                             <h1 class="title is-3 is-spaced has-text-grey-dark has-text-weight-semibold">Account
-                                Logout</h1>
-                            <p class="subtitle is-6 has-text-grey has-text-weight-light">Log out of your account</p>
+                                Forgot</h1>
+                            <p class="subtitle is-6 has-text-grey has-text-weight-light">Forgot password of your account</p>
                         </div>
                         <br><br>
                         <div class="notification has-text-centered is-hidden"></div>
+                        <form [formGroup]="forgotForm" (ngSubmit)="onForgotSubmit()">
+                            <div class="field">
+                                <div class="control">
+                                    <label>
+                                        <input #input class="input" type="text" formControlName="userName" autofocus placeholder="User name">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="control">
+                                    <button type="submit" class="button is-primary is-fullwidth" [disabled]="!forgotForm.valid">Send now</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                     <div class="has-text-centered">
                         <br>

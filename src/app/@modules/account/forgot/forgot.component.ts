@@ -1,25 +1,22 @@
 import {AfterViewInit, Component, Inject, OnInit, ViewChildren} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AppConfig} from '../../../@config/app.config';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
-    selector: 'app-login',
-    templateUrl: 'login.component.html',
+    selector: 'app-logout',
+    templateUrl: 'forgot.component.html',
     styleUrls: ['../account.component.scss']
 })
-export class LoginComponent implements OnInit, AfterViewInit {
+export class ForgotComponent implements OnInit, AfterViewInit {
 
     @ViewChildren('input') iaf;
     appConfig: AppConfig;
 
-    loginForm = new FormGroup({
+    forgotForm = new FormGroup({
         userName: new FormControl('', [
             Validators.required,
             Validators.minLength(3)
-        ]),
-        password: new FormControl('', [
-            Validators.required
-        ]),
+        ])
     });
 
     constructor(@Inject(AppConfig) appConfig) {
@@ -33,8 +30,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
         this.iaf.first.nativeElement.focus();
     }
 
-    onLoginSubmit() {
-        console.warn(this.loginForm.value);
+    onForgotSubmit() {
+        console.warn(this.forgotForm.value);
     }
 
 }
