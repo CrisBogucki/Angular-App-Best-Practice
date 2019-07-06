@@ -5,7 +5,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {HttpJwtInterceptor} from './@core/interceptors/http-jwt.interceptor';
 import {HttpErrorInterceptor} from './@core/interceptors/http-error.interceptor';
 
-import {APP_BASE_HREF} from '@angular/common';
+import {APP_BASE_HREF, LocationStrategy, PathLocationStrategy} from '@angular/common';
 
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
@@ -26,7 +26,8 @@ import {environment} from '../environments/environment';
         AppConfig,
         {provide: HTTP_INTERCEPTORS, useClass: HttpJwtInterceptor, multi: true},
         {provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true},
-        [{provide: APP_BASE_HREF, useValue: environment.app_base_href}]
+        {provide: LocationStrategy, useClass: PathLocationStrategy},
+        {provide: APP_BASE_HREF, useValue: environment.app_base_href}
     ],
     exports: [HttpClientModule],
     bootstrap: [AppComponent]
