@@ -11,6 +11,8 @@ import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 
 import {AppConfig} from './@config/app.config';
+import {environment} from '../environments/environment';
+
 
 @NgModule({
     declarations: [
@@ -24,7 +26,7 @@ import {AppConfig} from './@config/app.config';
         AppConfig,
         {provide: HTTP_INTERCEPTORS, useClass: HttpJwtInterceptor, multi: true},
         {provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true},
-        [{provide: APP_BASE_HREF, useValue: '/'}]
+        [{provide: APP_BASE_HREF, useValue: environment.app_base_href}]
     ],
     exports: [HttpClientModule],
     bootstrap: [AppComponent]
