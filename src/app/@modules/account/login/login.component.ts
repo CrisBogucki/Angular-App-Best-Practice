@@ -5,7 +5,7 @@ import {AppConfig} from '../../../@config/app.config';
 @Component({
     selector: 'app-login',
     templateUrl: 'login.component.html',
-    styleUrls: ['login.component.scss']
+    styleUrls: ['../account.component.scss']
 })
 export class LoginComponent implements OnInit {
 
