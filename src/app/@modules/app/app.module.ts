@@ -1,13 +1,15 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { AppRoutingModule } from './app-routing.module';
+import {AppRoutingModule} from './app-routing.module';
+import {LayoutComponent} from './layout/layout.component';
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    AppRoutingModule
-  ]
+    declarations: [LayoutComponent],
+    imports: [
+        CommonModule,
+        AppRoutingModule
+    ]
 })
-export class AppModule { }
+export class AppModule {
+}

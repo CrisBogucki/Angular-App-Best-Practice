@@ -7,9 +7,9 @@ export class AppConfig {
         document.title = this.appName;
     }
 
-    appName = 'ng8 app';
-    appDescript = 'Angular 8.1.0';
-    appVersion = '1.0.0';
+    appName = 'Welcome to Angular App';
+    appDescript = 'by Angular 8.1.0';
+    appVersion = '1.01.001';
     appCompany = 'cris bogucki';
 
 }

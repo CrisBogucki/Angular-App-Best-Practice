@@ -6,13 +6,11 @@ import {HttpJwtInterceptor} from './@core/interceptors/http-jwt.interceptor';
 import {HttpErrorInterceptor} from './@core/interceptors/http-error.interceptor';
 
 import {APP_BASE_HREF, LocationStrategy, PathLocationStrategy} from '@angular/common';
-
-import {AppComponent} from './app.component';
-import {AppRoutingModule} from './app-routing.module';
-
 import {AppConfig} from './@config/app.config';
 import {environment} from '../environments/environment';
 
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
 
 @NgModule({
     declarations: [
