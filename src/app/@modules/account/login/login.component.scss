@@ -1,0 +1,28 @@
+.main {
+  height: 100vh;
+
+  .columns {
+    height: 100vh;
+    margin-top: 0;
+
+    .background-column {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-image: url('https://www.loudwallpapers.com/wp-content/gallery/himalaya-wallpaper/himalaya-mountain-wallpaper-1920x1080.jpg');
+      background-position: center center;
+      background-size: cover;
+
+      .container {
+        flex-grow: 1;
+        flex-shrink: 1;
+      }
+    }
+
+    .form-column {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}

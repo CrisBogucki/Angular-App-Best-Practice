@@ -8,6 +8,8 @@ import {HttpErrorInterceptor} from './@core/interceptors/http-error.interceptor'
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 
+import {AppConfig} from './@config/app.config';
+
 @NgModule({
     declarations: [
         AppComponent
@@ -17,6 +19,7 @@ import {AppRoutingModule} from './app-routing.module';
         AppRoutingModule
     ],
     providers: [
+        AppConfig,
         {provide: HTTP_INTERCEPTORS, useClass: HttpJwtInterceptor, multi: true},
         {provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true},
     ],
