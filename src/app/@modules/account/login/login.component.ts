@@ -10,31 +10,27 @@ import {AppConfig} from '../../../@config/app.config';
 export class LoginComponent implements OnInit {
 
     submitted = false;
+    appConfig: AppConfig;
 
     loginForm = new FormGroup({
-
         userName: new FormControl('', [
             Validators.required,
             Validators.minLength(3)
         ]),
-
         password: new FormControl('', [
             Validators.required
         ]),
-
     });
 
-    constructor(@Inject(AppConfig) private appConfig) {
-
+    constructor(@Inject(AppConfig) appConfig) {
+        this.appConfig = appConfig;
     }
 
     ngOnInit() {
     }
 
     onLoginSubmit() {
-
         console.warn(this.loginForm.value);
-
     }
 
 }
