@@ -13,7 +13,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {authorizationMockService} from './@core/mocks/authorization-mock.service';
 import {SessionConfig} from './@config/session.config';
-import {SessionService} from './@core/session/session.service';
+import {SessionService} from './@core/services/session.service';
 
 @NgModule({
     declarations: [

@@ -7,7 +7,7 @@ import {User} from '../../@shared/models/user.model';
 
 import {environment} from '../../../environments/environment';
 import {SessionConfig} from '../../@config/session.config';
-import {SessionService} from '../session/session.service';
+import {SessionService} from './session.service';
 
 @Injectable({providedIn: 'root'})
 export class AuthenticationService {
@@ -24,7 +24,7 @@ export class AuthenticationService {
         @Inject(SessionService) sessionService) {
         this.sessionConfig = sessionConfig;
         this.sessionService = sessionService;
-        this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(SessionService.get(this.sessionConfig.currentUser)));
+        this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(SessionService.get(SessionConfig.currentUser)));
         this.currentUser = this.currentUserSubject.asObservable();
     }
 
@@ -37,7 +37,7 @@ export class AuthenticationService {
         return this.http.post<User>(`${environment.apiUrl}/account/authenticate`, {username, password})
             .pipe(map(user => {
                 if (user && user.token) {
-                    SessionService.set(this.sessionConfig.currentUser, JSON.stringify(user));
+                    SessionService.set(SessionConfig.currentUser, JSON.stringify(user));
                     this.currentUserSubject.next(user);
                 }
                 return user;
@@ -48,18 +48,14 @@ export class AuthenticationService {
     forgot(username: string) {
         return this.http.post<User>(`${environment.apiUrl}/account/forgot`, {username})
             .pipe(map(user => {
-                if (user) {
-                    this.currentUserSubject.next(user);
-                }
                 return user;
             }));
     }
 
     logout() {
-        SessionService.remove(this.sessionConfig.currentUser);
+        SessionService.remove(SessionConfig.currentUser);
         SessionService.clear();
         this.currentUserSubject.next(null);
-        this.currentUserSubject.unsubscribe();
     }
 
 

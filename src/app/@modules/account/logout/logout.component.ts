@@ -1,5 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {AppConfig} from '../../../@config/app.config';
+import {AuthenticationService} from '../../../@core/services/authentication.service';
 
 @Component({
     selector: 'app-logout',
@@ -9,13 +10,15 @@ import {AppConfig} from '../../../@config/app.config';
 export class LogoutComponent implements OnInit {
 
     appConfig: AppConfig;
+    authenticationService: AuthenticationService;
 
-    constructor(@Inject(AppConfig) appConfig, ) {
+    constructor(@Inject(AppConfig) appConfig, authenticationService: AuthenticationService) {
         this.appConfig = appConfig;
+        this.authenticationService = authenticationService;
     }
 
     ngOnInit() {
-
+        this.authenticationService.logout();
     }
 
 }
