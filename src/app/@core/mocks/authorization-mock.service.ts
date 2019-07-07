@@ -3,7 +3,7 @@ import {HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTTP
 import {Observable, of, throwError} from 'rxjs';
 import {delay, mergeMap, materialize, dematerialize} from 'rxjs/operators';
 
-import {User} from './../../@shared/models/user.model';
+import {User} from '../../@shared/models/user.model';
 
 @Injectable()
 export class AuthorizationMockService implements HttpInterceptor {
@@ -21,7 +21,7 @@ export class AuthorizationMockService implements HttpInterceptor {
         return of(null).pipe(mergeMap(() => {
 
             // authenticate - public
-            if (request.url.endsWith('/users/authenticate') && request.method === 'POST') {
+            if (request.url.endsWith('/account/authenticate') && request.method === 'POST') {
                 const user = users.find(x => x.username === request.body.username && x.password === request.body.password);
                 if (!user) {
                     return error('Username or password is incorrect');
@@ -32,6 +32,17 @@ export class AuthorizationMockService implements HttpInterceptor {
                     firstName: user.firstName,
                     lastName: user.lastName,
                     token: `fake-jwt-token`
+                });
+            }
+
+            // authenticate - public
+            if (request.url.endsWith('/account/forgot') && request.method === 'POST') {
+                const user = users.find(x => x.username === request.body.username);
+                if (!user) {
+                    return error('Username is not exist');
+                }
+                return ok({
+                    password: user.password
                 });
             }
 
@@ -47,7 +58,7 @@ export class AuthorizationMockService implements HttpInterceptor {
             return next.handle(request);
         }))
             .pipe(materialize())
-            .pipe(delay(500))
+            .pipe(delay(2500))
             .pipe(dematerialize());
 
         // private helper functions

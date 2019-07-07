@@ -18,12 +18,12 @@
                                 account</p>
                         </div>
                         <br><br>
-                        <div class="notification has-text-centered is-hidden"></div>
+                        <div [class]="errorMessage ? 'notification has-text-centered':'is-hidden'">{{ errorMessage }}</div>
                         <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
                             <div class="field">
                                 <div class="control">
                                     <label>
-                                        <input #input class="input" type="text" formControlName="userName" autofocus placeholder="User name">
+                                        <input #input class="input" type="text" formControlName="username" autofocus placeholder="User name">
                                     </label>
                                 </div>
                             </div>
@@ -36,7 +36,7 @@
                             </div>
                             <div class="field">
                                 <div class="control">
-                                    <button type="submit" class="button is-primary is-fullwidth" [disabled]="!loginForm.valid">Sign In</button>
+                                    <button type="submit" [class]="isSubmit ? 'button is-primary is-loading is-fullwidth' : 'button is-primary is-fullwidth'" [disabled]="!loginForm.valid || isSubmit">Sign In</button>
                                 </div>
                             </div>
                         </form>

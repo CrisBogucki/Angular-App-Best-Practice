@@ -1,19 +1,29 @@
-import {AfterViewInit, Component, Inject, OnInit, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewChildren} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AppConfig} from '../../../@config/app.config';
+import {AuthenticationService} from '../../../@core/services/authentication.service';
+import {first} from 'rxjs/operators';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
     selector: 'app-login',
     templateUrl: 'login.component.html',
     styleUrls: ['../account.component.scss']
 })
-export class LoginComponent implements OnInit, AfterViewInit {
+export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @ViewChildren('input') iaf;
-    appConfig: AppConfig;
 
-    loginForm = new FormGroup({
-        userName: new FormControl('', [
+    private appConfig: AppConfig;
+    private authenticationService: AuthenticationService;
+    private router: Router;
+    private route: ActivatedRoute;
+    private returnUrl: string;
+    private isSubmit = false;
+    private errorMessage: string;
+
+    private loginForm = new FormGroup({
+        username: new FormControl('', [
             Validators.required,
             Validators.minLength(3)
         ]),
@@ -22,19 +32,44 @@ export class LoginComponent implements OnInit, AfterViewInit {
         ]),
     });
 
-    constructor(@Inject(AppConfig) appConfig) {
+    constructor(
+        @Inject(AppConfig) appConfig,
+        authenticationService: AuthenticationService,
+        router: Router,
+        route: ActivatedRoute) {
         this.appConfig = appConfig;
+        this.authenticationService = authenticationService;
+        this.router = router;
+        this.route = route;
+        this.errorMessage = null;
     }
 
-    ngOnInit() {
+    ngOnInit(): void {
+        this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
     }
 
-    ngAfterViewInit() {
+    ngAfterViewInit(): void {
         this.iaf.first.nativeElement.focus();
     }
 
+    ngOnDestroy(): void {
+    }
+
     onLoginSubmit() {
-        console.warn(this.loginForm.value);
+        this.isSubmit = true;
+        this.errorMessage = null;
+        this.authenticationService.login(this.loginForm.get('username').value, this.loginForm.get('password').value)
+            .pipe(first())
+            .subscribe(
+                () => {
+                    this.isSubmit = false;
+                    this.router.navigate([this.returnUrl]);
+                },
+                error => {
+                    this.isSubmit = false;
+                    this.errorMessage = error;
+                });
+
     }
 
 }

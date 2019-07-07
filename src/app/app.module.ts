@@ -11,6 +11,9 @@ import {environment} from '../environments/environment';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
+import {authorizationMockService} from './@core/mocks/authorization-mock.service';
+import {SessionConfig} from './@config/session.config';
+import {SessionService} from './@core/session/session.service';
 
 @NgModule({
     declarations: [
@@ -21,11 +24,12 @@ import {AppComponent} from './app.component';
         AppRoutingModule
     ],
     providers: [
-        AppConfig,
+        AppConfig, SessionConfig, SessionService,
         {provide: HTTP_INTERCEPTORS, useClass: HttpJwtInterceptor, multi: true},
         {provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true},
         {provide: LocationStrategy, useClass: PathLocationStrategy},
-        {provide: APP_BASE_HREF, useValue: environment.app_base_href}
+        {provide: APP_BASE_HREF, useValue: environment.app_base_href},
+        authorizationMockService
     ],
     exports: [HttpClientModule],
     bootstrap: [AppComponent]

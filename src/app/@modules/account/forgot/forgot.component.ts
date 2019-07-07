@@ -1,6 +1,8 @@
 import {AfterViewInit, Component, Inject, OnInit, ViewChildren} from '@angular/core';
 import {AppConfig} from '../../../@config/app.config';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {first} from 'rxjs/operators';
+import {AuthenticationService} from '../../../@core/services/authentication.service';
 
 @Component({
     selector: 'app-logout',
@@ -10,17 +12,24 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 export class ForgotComponent implements OnInit, AfterViewInit {
 
     @ViewChildren('input') iaf;
-    appConfig: AppConfig;
+    private authenticationService: AuthenticationService;
+    private appConfig: AppConfig;
+    private isSubmit = false;
+    private errorMessage: string;
 
-    forgotForm = new FormGroup({
-        userName: new FormControl('', [
+    private forgotForm = new FormGroup({
+        username: new FormControl('', [
             Validators.required,
             Validators.minLength(3)
         ])
     });
 
-    constructor(@Inject(AppConfig) appConfig) {
+    constructor(
+        @Inject(AppConfig) appConfig,
+        authenticationService: AuthenticationService) {
         this.appConfig = appConfig;
+        this.authenticationService = authenticationService;
+        this.errorMessage = null;
     }
 
     ngOnInit() {
@@ -31,7 +40,20 @@ export class ForgotComponent implements OnInit, AfterViewInit {
     }
 
     onForgotSubmit() {
-        console.warn(this.forgotForm.value);
+        this.isSubmit = true;
+        this.errorMessage = null;
+        this.authenticationService.forgot(this.forgotForm.get('username').value)
+            .pipe(first())
+            .subscribe(
+                data => {
+                    console.log(data);
+                    this.isSubmit = false;
+                    this.errorMessage = `Your password is: ${data.password}`;
+                },
+                error => {
+                    this.isSubmit = false;
+                    this.errorMessage = error;
+                });
     }
 
 }

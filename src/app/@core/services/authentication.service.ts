@@ -1,39 +1,66 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {Inject, Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
-import { User } from './../../@shared/models/user.model';
+import {User} from '../../@shared/models/user.model';
 
-import { environment} from './../../../environments/environment';
+import {environment} from '../../../environments/environment';
+import {SessionConfig} from '../../@config/session.config';
+import {SessionService} from '../session/session.service';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class AuthenticationService {
-  private currentUserSubject: BehaviorSubject<User>;
-  public currentUser: Observable<User>;
 
-  constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
-    this.currentUser = this.currentUserSubject.asObservable();
-  }
+    private currentUserSubject: BehaviorSubject<User>;
+    public currentUser: Observable<User>;
 
-  public get currentUserValue(): User {
-    return this.currentUserSubject.value;
-  }
+    private sessionConfig: SessionConfig;
+    private sessionService: SessionService;
 
-  login(username: string, password: string) {
-    return this.http.post<User>(`${environment.apiUrl}/users/authenticate`, { username, password })
-        .pipe(map(user => {
-          if (user && user.token) {
-            localStorage.setItem('currentUser', JSON.stringify(user));
-            this.currentUserSubject.next(user);
-          }
-          return user;
-        }));
-  }
+    constructor(
+        private http: HttpClient,
+        @Inject(SessionConfig) sessionConfig,
+        @Inject(SessionService) sessionService) {
+        this.sessionConfig = sessionConfig;
+        this.sessionService = sessionService;
+        this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(SessionService.get(this.sessionConfig.currentUser)));
+        this.currentUser = this.currentUserSubject.asObservable();
+    }
 
-  logout() {
-    localStorage.removeItem('currentUser');
-    this.currentUserSubject.next(null);
-  }
+    public get currentUserValue(): User {
+        return this.currentUserSubject.value;
+    }
+
+
+    login(username: string, password: string) {
+        return this.http.post<User>(`${environment.apiUrl}/account/authenticate`, {username, password})
+            .pipe(map(user => {
+                if (user && user.token) {
+                    SessionService.set(this.sessionConfig.currentUser, JSON.stringify(user));
+                    this.currentUserSubject.next(user);
+                }
+                return user;
+
+            }));
+    }
+
+    forgot(username: string) {
+        return this.http.post<User>(`${environment.apiUrl}/account/forgot`, {username})
+            .pipe(map(user => {
+                if (user) {
+                    this.currentUserSubject.next(user);
+                }
+                return user;
+            }));
+    }
+
+    logout() {
+        SessionService.remove(this.sessionConfig.currentUser);
+        SessionService.clear();
+        this.currentUserSubject.next(null);
+        this.currentUserSubject.unsubscribe();
+    }
+
+
 }
