@@ -12,12 +12,12 @@ import {AuthenticationService} from '../../../@core/services/authentication.serv
 export class ForgotComponent implements OnInit, AfterViewInit {
 
     @ViewChildren('input') iaf;
-    private authenticationService: AuthenticationService;
-    private appConfig: AppConfig;
-    private isSubmit = false;
-    private errorMessage: string;
+    authenticationService: AuthenticationService;
+    appConfig: AppConfig;
+    isSubmit = false;
+    errorMessage: string;
 
-    private forgotForm = new FormGroup({
+    forgotForm = new FormGroup({
         username: new FormControl('', [
             Validators.required,
             Validators.minLength(3)
