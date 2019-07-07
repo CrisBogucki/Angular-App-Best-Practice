@@ -10,11 +10,12 @@ export class LogoutComponent implements OnInit {
 
     appConfig: AppConfig;
 
-    constructor(@Inject(AppConfig) appConfig) {
+    constructor(@Inject(AppConfig) appConfig, ) {
         this.appConfig = appConfig;
     }
 
     ngOnInit() {
+
     }
 
 }

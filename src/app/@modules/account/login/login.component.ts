@@ -14,15 +14,15 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @ViewChildren('input') iaf;
 
-    sappConfig: AppConfig;
-    sauthenticationService: AuthenticationService;
-    srouter: Router;
-    sroute: ActivatedRoute;
-    sreturnUrl: string;
-    sisSubmit = false;
-    serrorMessage: string;
+    appConfig: AppConfig;
+    authenticationService: AuthenticationService;
+    router: Router;
+    route: ActivatedRoute;
+    returnUrl: string;
+    isSubmit = false;
+    errorMessage: string;
 
-    sloginForm = new FormGroup({
+    loginForm = new FormGroup({
         username: new FormControl('', [
             Validators.required,
             Validators.minLength(3)
