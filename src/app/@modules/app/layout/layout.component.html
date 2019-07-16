@@ -45,7 +45,7 @@
         <div class="navbar-end">
             <div class="navbar-item">
                 <div class="buttons">
-                    <a class="button is-light" routerLink="./account/logout">
+                    <a class="button is-light" [routerLink]="['./../account/logout']">
                         Log out
                     </a>
                 </div>
@@ -90,5 +90,9 @@
     </div>
     <div class="column is-main-content">
         Main content
+
+        <router-outlet></router-outlet>
+
+
     </div>
 </div>

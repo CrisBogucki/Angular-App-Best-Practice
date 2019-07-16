@@ -8,12 +8,12 @@ const routes: Routes = [
         loadChildren: () => import('./@modules/account/account.module').then(m => m.AccountModule)
     },
     {
-        path: '',
+        path: 'app',
         loadChildren: () => import('./@modules/app/app.module').then(m => m.AppModule),
         canActivate: [AuthGuard]
     },
     {
-        path: '**', redirectTo: '', pathMatch: 'full'
+        path: '**', redirectTo: 'app', pathMatch: 'full'
     }
 ];
 
